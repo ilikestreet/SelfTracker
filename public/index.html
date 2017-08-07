@@ -1,0 +1,78 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>My Rocket League Tracker</title>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.18.1/moment.js" type="text/javascript"></script>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/2.6.0/Chart.js" type="text/javascript"></script>
+	<script type="text/javascript">
+		var data11 = [];
+		data11.push({
+			x: new Date(), 
+			y: 5
+		});
+		data11.push({
+			x: moment(new Date()).add(2, 'm').toDate(),
+			y: 1
+		});
+		// // [0, 10, 5, 2, 20, 30, 45];
+		var data22 = [];
+		data22.push({
+			x: moment(new Date()).add(0, 'm').toDate(),
+			y: 4	
+		});
+		data22.push({
+			x: moment(new Date()).add(10, 'm').toDate(),
+			y: 6	
+		});
+		// data22.push(0);
+		// // [0, 1, 2, 4, 20, 33, 55, 0];
+		var data33 = [];
+		// data33.push(0);
+		// // [50, 0, 5, 2, 20, 30, 4];
+		var data33s = [];
+		// data33s.push(0);
+		// data33s.push(3);
+		// // [0, 10, 21, 4, 20, 3, 5, 0];
+	</script>
+	<script src="https://cdn.wilddog.com/sdk/js/2.5.8/wilddog.js"></script>
+	<script type="text/javascript">
+		var config = { syncURL: "https://wd9411380948rejqhg.wilddogio.com" };
+		wilddog.initializeApp(config);
+		var database = wilddog.sync();
+	</script>
+</head>
+<body>
+	<div style="border: 1px solid; position: relative; margin: auto; width: 50vh">
+		<label>Ranked: </label>
+		<select id="selectID">
+			<option onfocus>1v1</option>
+			<option>2v2</option>
+			<option>3v3</option>
+			<option>Solo 3v3</option>
+		</select>
+		<br>
+		<label>Win or Lose: </label>
+		<label><input type="radio" name="winLose" value="win" id="win">Win</label>
+		<label><input type="radio" name="winLose" value="lose" id="lose">Lose</label>
+		<br>
+		<input type="button" name="submit" value="Submit" onclick="bt_submit_onclick()">
+		<input type="button" name="clear" value="Clear">
+		<script type="text/javascript">
+			function bt_submit_onclick() {
+				database.ref("/" + new Date().getHours()).set({
+					"Ranked": document.getElementById("selectID").value,
+					"winOrLose": ((document.getElementById("win").checked) ? "win" : "lose")
+				});
+				database.ref("/").once("value", function(snapshot) {
+					console.log(snapshot.val());
+				})
+			}
+		</script>
+	</div>
+	<div style="position: relative; width: 150vh; margin: auto;">
+		<canvas id="myChart"></canvas>
+		<script src="initChart.js" type="text/javascript"></script>
+	</div>
+</body>
+</html>
