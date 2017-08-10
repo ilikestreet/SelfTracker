@@ -1,29 +1,48 @@
 // server.js
 var rls = require('rls-api');
 var express = require('express');
+var wilddog = require('wilddog');
+var request = require('request');
 app = express();
 
 var client = new rls.Client({
-    token: "SGJMF30MF53IWGDXV7NGJI5LUVN3JA7N"
+    token: "D5IOSEQLJ0U2DB3HF3ABDXPYRX0HYE6P"
 });
 var ilikestreet = "76561198157475412";
-app.locals.title = 'My App';
-app.use(express.static(__dirname + '/public'));
 
-app.get('/index1.html', function(req, res) {
+var config = {
+	authDomain: "wd9411380948rejqhg.wilddog.com",
+	syncURL: "https://wd9411380948rejqhg.wilddogio.com"
+}
+wilddog.initializeApp(config);
+var database = wilddog.sync();
+
+app.use(express.static(__dirname + '/public'));
+app.get('/index.html', function(req, res) {
 	res.setHeader('Content-Type', 'text/html');
 	client.getPlayer(ilikestreet, rls.platforms.STEAM, function(status, data) {
 		if (status == 200) {
-			// console.log(data.displayName);
 			var jsonString = JSON.stringify(data);
-			// var newData = JSON.parse(jsonString);
-			res.write(jsonString + "\n");
-			res.write("<strong>" + data.displayName+ "</strong><br>");
-			res.write("Wins: " + data.stats.wins+ "\n");
-			res.end();
+			// res.write(jsonString + "\n");			
+			// res.write("<strong>" + data.displayName+ "</strong><br>");
+			// res.write("Wins: " + data.stats.wins+ "\n");
+			database.ref(data.displayName).set(data);
 		}
 	});
+	res.end();
 });
+
+setInterval(function(){ 
+	request({
+		uri: "http://127.0.0.1:8080/index.html",
+		method: "GET"
+	}, function(error, response, body) {
+		if (error) {
+			console.log(error);		
+		}
+	});
+}, 2000);
+
 app.listen(8080, function() {
 	console.log('Server running at http://127.0.0.1:8080/');
 });
