@@ -1,0 +1,45 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Self Tracker</title>
+	<style type="text/css">
+		#profile {
+			border: 1px dashed;
+			margin: 50px 50px 50px;
+		}
+
+		#pic {
+			border-radius: 50%;
+		}
+	</style>
+	<script src="https://cdn.wilddog.com/sdk/js/2.5.8/wilddog.js"></script>
+	<script type="text/javascript">
+		var config = {
+			authDomain: "wd9411380948rejqhg.wilddog.com",
+			syncURL: "https://wd9411380948rejqhg.wilddogio.com"
+		};
+		wilddog.initializeApp(config);
+		var database = wilddog.sync();
+	</script>
+</head>
+<body>
+	<div id="profile">
+		<img id="pic" width="100" height="100">
+		<label id="name"></label>
+	</div>
+	<script type="text/javascript">
+		database.ref("/i1ikeStreet").on('value', function (snapshot){
+			data = snapshot.val();
+			console.log(data);
+			var currentSeason = data.rankedSeasons[4];
+			for (var i = 10; i < 14; i++) {
+				console.log(currentSeason[String(i)]);
+			}
+			document.getElementById('pic').src = data.avatar;
+			document.getElementById('name').innerHTML = data.displayName;
+
+		});
+	</script>
+</body>
+</html>
