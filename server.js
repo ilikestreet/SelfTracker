@@ -2,7 +2,7 @@
 var rls = require('rls-api');
 var express = require('express');
 var wilddog = require('wilddog');
-var request = require('request');
+// var request = require('request');
 app = express();
 
 var client = new rls.Client({
@@ -33,15 +33,12 @@ app.get('/index.html', function(req, res) {
 });
 
 setInterval(function(){ 
-	request({
-		uri: "http://127.0.0.1:8080/index.html",
-		method: "GET"
-	}, function(error, response, body) {
-		if (error) {
-			console.log(error);		
+	client.getPlayer(ilikestreet, rls.platforms.STEAM, function(status, data) {
+		if (status == 200) {
+			database.ref(data.displayName).set(data);
 		}
 	});
-}, 30000);
+}, 5000);
 
 app.listen(8080, function() {
 	console.log('Server running at http://127.0.0.1:8080/');
