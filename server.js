@@ -16,26 +16,6 @@ var config = {
 wilddog.initializeApp(config);
 var database = wilddog.sync();
 
-client.getSeasonsData(function(status, data){
-    if(status === 200){
-        console.log("-- Seasons data:");
-        console.log(data);
-    }
-});
-
-client.getPlaylistsData(function(status, data){
-    if(status === 200){
-        console.log("-- Playlists data:");
-        console.log(data);
-    }
-});
-
-client.getTiersData(function(status, data){
-    if(status === 200){
-        console.log("-- Tiers data:");
-        console.log(data);
-    }
-});
 
 app.use(express.static(__dirname + '/public'));
 app.get('/index.html', function(req, res) {
@@ -49,6 +29,7 @@ app.get('/index.html', function(req, res) {
 			database.ref(data.displayName).set(data);
 		}
 	});
+
 	res.end();
 });
 
@@ -58,6 +39,23 @@ setInterval(function(){
 			database.ref(data.displayName).set(data);
 		}
 	});
+
+	client.getSeasonsData(function(status, data){
+	    if(status === 200){
+	        console.log("-- Seasons data:");
+	        console.log(data);
+	        database.ref("/seasonsData").set(data);
+	    }
+	});
+
+	client.getTiersData(function(status, data){
+	    if(status === 200){
+	        console.log("-- Tiers data:");
+	        console.log(data);
+	        database.ref("/Tiers data").set(data);
+	    }
+	});
+
 }, 10000);
 
 app.listen(8080, function() {
