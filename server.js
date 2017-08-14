@@ -26,7 +26,7 @@ app.get('/index.html', function(req, res) {
 			// res.write(jsonString + "\n");			
 			// res.write("<strong>" + data.displayName+ "</strong><br>");
 			// res.write("Wins: " + data.stats.wins+ "\n");
-			database.ref(data.displayName).set(data);
+			database.ref("/Users/" + data.displayName).set(data);
 		}
 	});
 
