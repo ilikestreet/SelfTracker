@@ -37,7 +37,8 @@ app.get('/index.html', function(req, res) {
 setInterval(function(){ 
 	client.getPlayer(ilikestreet, rls.platforms.STEAM, function(status, data) {
 		if (status == 200) {
-			database.ref(data.displayName).set(data);
+			database.ref("/Users").set(data.displayName);
+			database.ref("/Users/" + data.displayName).set(data);
 		}
 	});
 
