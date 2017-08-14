@@ -42,16 +42,12 @@ setInterval(function(){
 
 	client.getSeasonsData(function(status, data){
 	    if(status === 200){
-	        console.log("-- Seasons data:");
-	        console.log(data);
 	        database.ref("/seasonsData").set(data);
 	    }
 	});
 
 	client.getTiersData(function(status, data){
 	    if(status === 200){
-	        console.log("-- Tiers data:");
-	        console.log(data);
 	        database.ref("/Tiers data").set(data);
 	    }
 	});
