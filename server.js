@@ -48,7 +48,7 @@ setInterval(function(){
 
 	client.getTiersData(function(status, data){
 	    if(status === 200){
-	        database.ref("/Tiers data").set(data);
+	        database.ref("/tiersData").set(data);
 	    }
 	});
 
