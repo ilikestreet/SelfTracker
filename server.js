@@ -2,7 +2,6 @@
 var rls = require('rls-api');
 var express = require('express');
 var wilddog = require('wilddog');
-// var request = require('request');
 app = express();
 
 var client = new rls.Client({
@@ -38,7 +37,7 @@ setInterval(function(){
 			database.ref(data.displayName).set(data);
 		}
 	});
-}, 5000);
+}, 10000);
 
 app.listen(8080, function() {
 	console.log('Server running at http://127.0.0.1:8080/');
