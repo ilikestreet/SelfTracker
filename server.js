@@ -52,7 +52,7 @@ setInterval(function(){
 	    }
 	});
 
-}, 10000);
+}, 30000);
 
 app.listen(8080, function() {
 	console.log('Server running at http://127.0.0.1:8080/');
