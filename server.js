@@ -53,7 +53,7 @@ setInterval(function(){
 			console.log("Updated ilikestreet's profile @ " + date.toString());
 		}
 	});
-}, 10000);
+}, 5000);
 
 // app.listen(8080, function() {
 // 	console.log('Server running at http://127.0.0.1:8080/');
