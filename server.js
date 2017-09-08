@@ -52,6 +52,9 @@ setInterval(function(){
 			var date = Date(data.lastRequested);
 			console.log("Updated ilikestreet's profile @ " + date.toString());
 		}
+		else {
+			console.log('Status code: ' + status);
+		}
 	});
 }, 5000);
 
