@@ -5,7 +5,7 @@ var wilddog = require('wilddog');
 // app = express();
 
 var client = new rls.Client({
-    token: "7J0BQJC1LXA0AZZ5Z3HL7LJMS01G7GX8"
+    token: "F5STHE0JQL5BSTU5WMP241ZXTUG45OXG"
 });
 var ilikestreet = "76561198157475412";
 
