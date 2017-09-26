@@ -63,18 +63,24 @@ client.getTiersData(function(status, data){
 console.log('Updated Seasons Data & Tires Data');
 
 setInterval(function(){ 
-	client.getPlayer(ilikestreet, rls.platforms.STEAM, function(status, data) {
-		if (status == 200) {
-			databaseWD.ref("/Users/" + data.displayName).set(data);
-			databaseFB.ref("/Users/" + data.displayName).set(data);
-			var date = Date(data.lastRequested);
-			console.log("Updated ilikestreet's profile @ " + date.toString());
-		}
-		else {
-			console.log('Status code: ' + status + ' @ ' + new Date().toString());
-		}
-	});
-}, 10000);
+	try {
+		client.getPlayer(ilikestreet, rls.platforms.STEAM, function(status, data) {
+			if (status == 200) {
+				databaseWD.ref("/Users/" + data.displayName).set(data);
+				databaseFB.ref("/Users/" + data.displayName).set(data);
+				var date = Date(data.lastRequested);
+				console.log("Updated ilikestreet's profile @ " + date.toString());
+			}
+			else {
+				console.log('Status code: ' + status + ' @ ' + new Date().toString());
+			}
+		});	
+	}
+	catch (err) {
+		setTimeout(function(){}, 1000);
+	}
+	
+}, 2000);
 
 // app.listen(8080, function() {
 // 	console.log('Server running at http://127.0.0.1:8080/');
