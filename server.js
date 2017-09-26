@@ -2,6 +2,8 @@
 var rls = require('rls-api');
 // var express = require('express');
 var wilddog = require('wilddog');
+var firebase = require("firebase");
+
 // app = express();
 
 var client = new rls.Client({
@@ -9,12 +11,24 @@ var client = new rls.Client({
 });
 var ilikestreet = "76561198157475412";
 
-var config = {
+
+
+var configWD = {
 	authDomain: "wd9411380948rejqhg.wilddog.com",
 	syncURL: "https://wd9411380948rejqhg.wilddogio.com"
 }
-wilddog.initializeApp(config);
-var database = wilddog.sync();
+wilddog.initializeApp(configWD);
+var databaseWD = wilddog.sync();
+
+
+var configFB = {
+	apiKey: "AIzaSyDgyVcYPOfql4afZzdj4luohnhT5icvfLE",
+    authDomain: "rocket-tracker-431fb.firebaseapp.com",
+    databaseURL: "https://rocket-tracker-431fb.firebaseio.com",
+}
+
+firebase.initializeApp(configFB);
+var databaseFB = firebase.database();
 
 
 // app.use(express.static(__dirname + '/public'));
@@ -34,13 +48,16 @@ var database = wilddog.sync();
 // });
 client.getSeasonsData(function(status, data){
     if(status === 200){
-        database.ref("/seasonsData").set(data);
+        databaseWD.ref("/seasonsData").set(data);
+        databaseFB.ref("/seasonsData").set(data);
+
     }
 });
 
 client.getTiersData(function(status, data){
     if(status === 200){
-        database.ref("/tiersData").set(data);
+        databaseWD.ref("/tiersData").set(data);
+        databaseFB.ref("/tiersData").set(data);
     }
 });
 console.log('Updated Seasons Data & Tires Data');
@@ -48,7 +65,8 @@ console.log('Updated Seasons Data & Tires Data');
 setInterval(function(){ 
 	client.getPlayer(ilikestreet, rls.platforms.STEAM, function(status, data) {
 		if (status == 200) {
-			database.ref("/Users/" + data.displayName).set(data);
+			databaseWD.ref("/Users/" + data.displayName).set(data);
+			databaseFB.ref("/Users/" + data.displayName).set(data);
 			var date = Date(data.lastRequested);
 			console.log("Updated ilikestreet's profile @ " + date.toString());
 		}
@@ -56,7 +74,7 @@ setInterval(function(){
 			console.log('Status code: ' + status + ' @ ' + new Date().toString());
 		}
 	});
-}, 5000);
+}, 10000);
 
 // app.listen(8080, function() {
 // 	console.log('Server running at http://127.0.0.1:8080/');
