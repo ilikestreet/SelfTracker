@@ -77,7 +77,7 @@ setInterval(function(){
 		});	
 	}
 	catch (err) {
-		setTimeout(function(){}, 1000);
+		setTimeout(function(){}, 5000);
 	}
 	
 }, 2000);
