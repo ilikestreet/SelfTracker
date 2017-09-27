@@ -3,6 +3,8 @@ var rls = require('rls-api');
 // var express = require('express');
 var wilddog = require('wilddog');
 var firebase = require("firebase");
+var RateLimiter = require('limiter').RateLimiter;
+var limiter = new RateLimiter(2, 'second');
 
 // app = express();
 
@@ -62,8 +64,8 @@ client.getTiersData(function(status, data){
 });
 console.log('Updated Seasons Data & Tires Data');
 
-setInterval(function(){ 
-	try {
+limiter.removeTokens(1, function(err, remainingRequests) {
+	setInterval(function(){ 
 		client.getPlayer(ilikestreet, rls.platforms.STEAM, function(status, data) {
 			if (status == 200) {
 				databaseWD.ref("/Users/" + data.displayName).set(data);
@@ -74,14 +76,9 @@ setInterval(function(){
 			else {
 				console.log('Status code: ' + status + ' @ ' + new Date().toString());
 			}
-		});	
-	}
-	catch (err) {
-		console.log(err.message);
-		setTimeout(function(){}, 5000);
-	}
-	
-}, 2000);
+		});			
+	}, 2000);
+})
 
 // app.listen(8080, function() {
 // 	console.log('Server running at http://127.0.0.1:8080/');
